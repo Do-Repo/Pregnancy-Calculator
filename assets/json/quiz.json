@@ -1,0 +1,112 @@
+[
+    {
+        "id": 1,
+        "question": "Which one of the following would you add to your brithplan?",
+        "correct": 1,
+        "options": [
+            "What to do if pregnancy complications arise",
+            "When to take your dog out",
+            "How to eat 10 cookies at once",
+            "How to crack a coconut"
+        ]
+    },
+    {
+        "id": 2,
+        "question": "Which one of the following is a good exercise for your pregnancy?",
+        "correct": 3,
+        "options": [
+            "Push-ups",
+            "Holding your breath for 1 minute",
+            "Prenatal Yoga",
+            "Jumping as high as you can in a trampoline for 1 hour"
+        ]
+    },
+    {
+        "id": 3,
+        "question": "Which of the following are unhealthy for your pregnancy?",
+        "correct": 3,
+        "options": [
+            "Eating healthy foods",
+            "Drinking water",
+            "Drinking alcohol & smoking cigarettes",
+            "Exercising"
+        ]
+    },
+    {
+        "id": 4,
+        "question": "Choose the one 'unhealthy for pregnancy' chore you should take off your to-do list:",
+        "correct": 2,
+        "options": [
+            "Daily education on pregnancy",
+            "Standing for long periods of time, especially near a hot stove",
+            "Exercising",
+            "Drinking enough water"
+        ]
+    },
+    {
+        "id": 5,
+        "question": "Why should you buy comfortable shoes during pregnancy?",
+        "correct": 2,
+        "options": [
+            "For shopping",
+            "For not causing painful overpronation or flattening of out of the feet",
+            "For baby shoes",
+            "For more shoes"
+        ]
+    },
+    {
+        "id": 6,
+        "question": "Why it is important to check that the massage therapist uses only safe oils?",
+        "correct": 1,
+        "options": [
+            "Certain oils can cause uterine contractions.",
+            "To make French fries with it",
+            "That it will not soil the clothes",
+            "To know if you like the smell of it."
+        ]
+    },
+    {
+        "id": 7,
+        "question": "Why it is important to drink more water during pregnancy?",
+        "correct": 4,
+        "options": [
+            "Because it's dietary",
+            "For more pee.",
+            "Because it's free",
+            "To prevent uncomfortable pregnancy symptoms."
+        ]
+    },
+    {
+        "id": 8,
+        "question": "Why it is important to stay clean during pregnancy?",
+        "correct": 1,
+        "options": [
+            "To protect from communicable infections.",
+            "It's not terrible to stay dirty",
+            "It has no special significance",
+            "So that people don't complain about bad smell."
+        ]
+    },
+    {
+        "id": 9,
+        "question": "What to do when the baby is looking at you and smiling?",
+        "correct": 3,
+        "options": [
+            "Ignore his smile.",
+            "This means that the baby is hungry.",
+            "Look into your baby’s eyes and smile back.",
+            "That means the baby has pooped."
+        ]
+    },
+    {
+        "id": 10,
+        "question": "What good lesson can you learn from a baby and apply in your life according to the lesson?",
+        "correct": 4,
+        "options": [
+            "Crawling is better than walking",
+            "Babyfood will give you superpowers",
+            "Cry to get what you want",
+            "Opportunities exist to be seized"
+        ]
+    }
+]
