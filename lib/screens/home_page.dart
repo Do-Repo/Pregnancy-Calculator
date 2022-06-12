@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pregnancy_app/screens/date_page.dart';
 import 'package:pregnancy_app/screens/name_page.dart';
 import 'package:pregnancy_app/services/notification_services.dart';
 
@@ -39,9 +40,9 @@ class _HomepageState extends State<Homepage> {
       final difference = today.difference(date);
       final days = difference.inDays;
       final months = difference.inDays ~/ 30;
-
       // final weeks = difference.inDays ~/ 7;
       // final years = difference.inDays ~/ 365;
+
       SharedPrefServices().getName().then((n) {
         NotificationService().setNotification(3, "Hey ${n.capitalize()}!",
             "Review the quote of the day!", 10, 0, "--", context);
@@ -133,7 +134,9 @@ class _HomepageState extends State<Homepage> {
                       onTap: (() => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const NamePage()))),
+                              builder: (context) => DatePage(
+                                    name: name,
+                                  )))),
                       title: Text(
                         "Change dates and show calendar again",
                         style: buttoncard,

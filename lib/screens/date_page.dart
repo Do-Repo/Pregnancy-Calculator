@@ -9,7 +9,7 @@ import '../widgets/date_confirm_sheet.dart';
 import '../widgets/top_card.dart';
 
 class DatePage extends StatefulWidget {
-  const DatePage({Key? key, this.name}) : super(key: key);
+  const DatePage({Key? key, required this.name}) : super(key: key);
   final String? name;
   @override
   State<DatePage> createState() => _DatePageState();
