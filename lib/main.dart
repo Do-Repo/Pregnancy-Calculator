@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 import 'package:pregnancy_app/screens/home_page.dart';
+import 'package:pregnancy_app/services/ads_services.dart';
 import 'package:pregnancy_app/services/notification_services.dart';
 import 'package:pregnancy_app/services/shared_prefs.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/name_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init();
+  final initFuture = MobileAds.instance.initialize();
+  final adState = AdState(initFuture);
 
   bool ft = await isFirstTime();
-  runApp(MyApp(
-    firstTime: ft,
+  runApp(Provider.value(
+    value: adState,
+    builder: (context, child) => MyApp(
+      firstTime: ft,
+    ),
   ));
 }
 

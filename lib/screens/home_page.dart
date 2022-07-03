@@ -4,13 +4,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pregnancy_app/screens/date_page.dart';
-import 'package:pregnancy_app/screens/name_page.dart';
 import 'package:pregnancy_app/services/notification_services.dart';
 
 import 'package:pregnancy_app/src/const.dart';
+import 'package:provider/provider.dart';
 
 import '../models/quotes.dart';
+import '../services/ads_services.dart';
 import '../services/shared_prefs.dart';
 import '../widgets/baby_card.dart';
 import '../widgets/button_reward.dart';
@@ -29,11 +31,13 @@ class _HomepageState extends State<Homepage> {
   String name = "", quote = "", author = "";
   int monthsleft = 99;
   int daysleft = 99;
+  late BannerAd? banner;
+
   @override
   void initState() {
     super.initState();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
-
+    banner = null;
     SharedPrefServices().getDate().then((value) {
       final DateTime date = formatter.parse(value);
       final DateTime today = DateTime.now();
@@ -64,6 +68,41 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    adState.initialization.then((value) {
+      setState(() {
+        banner = BannerAd(
+            size: AdSize.banner,
+            adUnitId: adState.homeBannerAd,
+            listener: adState.bannerAdListener,
+            request: AdRequest())
+          ..load();
+      });
+    });
+    InterstitialAd.load(
+        adUnitId: adState.interstitial,
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            setState(() {
+              ad.show();
+            });
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print(error.toString() + '  this is inter error');
+          },
+        ));
+  }
+
+  @override
+  void dispose() {
+    banner!.dispose();
+    super.dispose();
+  }
+
   void onClickNotification(String payload) async {
     if (payload.isNotEmpty) {
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -90,63 +129,74 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icons/tree.svg",
-                      fit: BoxFit.fitHeight,
-                    ),
-                    RewardButton(name: name)
-                  ],
-                ),
-                const SizedBox(height: 5),
-                TopCard(
-                  name: name,
-                  text:
-                      "Have an amazing day, and don't forget to take good care of yourself and your little one!",
-                ),
-                const SizedBox(height: 10),
-                BabyCard(
-                  monthsleft: monthsleft,
-                ),
-                QuoteCard(
-                  quote: quote,
-                  author: author,
-                ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    SvgPicture.asset("assets/icons/upsidetree.svg")
-                  ],
-                ),
-                DayCounter(daysLeft: daysleft),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
-                  child: ListTile(
-                      onTap: (() => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DatePage(
-                                    name: name,
-                                  )))),
-                      title: Text(
-                        "Change dates and show calendar again",
-                        style: buttoncard,
+        child:
+            CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
+          SliverFillRemaining(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/tree.svg",
+                        fit: BoxFit.fitHeight,
                       ),
-                      trailing: const Icon(Icons.keyboard_arrow_down)),
-                )
-              ],
+                      RewardButton(name: name)
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  TopCard(
+                    name: name,
+                    text:
+                        "Have an amazing day, and don't forget to take good care of yourself and your little one!",
+                  ),
+                  const SizedBox(height: 10),
+                  BabyCard(
+                    monthsleft: monthsleft,
+                  ),
+                  QuoteCard(
+                    quote: quote,
+                    author: author,
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      SvgPicture.asset("assets/icons/upsidetree.svg")
+                    ],
+                  ),
+                  DayCounter(daysLeft: daysleft),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20.0, right: 20.0, top: 20.0),
+                    child: ListTile(
+                        onTap: (() => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DatePage(
+                                      name: name,
+                                    )))),
+                        title: Text(
+                          "Change dates and show calendar again",
+                          style: buttoncard,
+                        ),
+                        trailing: const Icon(Icons.keyboard_arrow_down)),
+                  ),
+                  const Spacer(),
+                  (banner != null)
+                      ? SizedBox(
+                          child: AdWidget(
+                            ad: banner!,
+                          ),
+                          height: banner!.size.height.toDouble(),
+                        )
+                      : Container(),
+                ],
+              ),
             ),
-          ),
-        ),
+          )
+        ]),
       ),
     );
   }

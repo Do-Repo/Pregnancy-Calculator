@@ -4,13 +4,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../models/lessons.dart';
 import '../services/shared_prefs.dart';
 import '../src/const.dart';
 import '../src/widget_animator.dart';
 import '../widgets/lesson_card.dart';
+import '../widgets/final_reward_button.dart';
 
 class LessonList extends StatefulWidget {
   const LessonList({Key? key, required this.name}) : super(key: key);
@@ -146,69 +146,9 @@ class _LessonListState extends State<LessonList> {
               padding: const EdgeInsets.symmetric(horizontal: 13),
               child: Column(children: [
                 ...buttonList(lessons),
-                Container(
-                  margin: EdgeInsets.all(15),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Color(0XFFF3A0C9),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(width: 15),
-                      SvgPicture.asset(
-                        'assets/icons/reward.svg',
-                        height: 50,
-                        fit: BoxFit.fitWidth,
-                      ),
-                      const Spacer(),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text("Get Your", style: lesonsCard),
-                          Text("Free Present!", style: lesonsCard),
-                        ],
-                      ),
-                      const Spacer(),
-                      Container(
-                        width: 5.sp,
-                        height: 250.h,
-                        color: Colors.white,
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        width: 50,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Text(
-                                "${states.length - 1} / 10",
-                                style: lesonsCard,
-                              ),
-                            ),
-                            FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Text("Completed",
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0XFFFFFFFF),
-                                  )),
-                            )
-                          ],
-                        ),
-                      ),
-                      const Spacer()
-                    ],
-                  ),
+                FinalRewardButton(
+                  states: states,
+                  name: widget.name,
                 )
               ]),
             ),
