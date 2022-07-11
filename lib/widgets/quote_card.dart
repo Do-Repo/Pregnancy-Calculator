@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:math';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pregnancy_app/src/const.dart';
-
-import '../models/quotes.dart';
 
 class QuoteCard extends StatefulWidget {
   const QuoteCard({Key? key, required this.quote, required this.author})
@@ -15,6 +11,7 @@ class QuoteCard extends StatefulWidget {
 }
 
 class _QuoteCardState extends State<QuoteCard> {
+  AutoSizeGroup textGroup = AutoSizeGroup();
   @override
   Widget build(BuildContext context) {
     return (widget.quote.isEmpty)
@@ -22,12 +19,18 @@ class _QuoteCardState extends State<QuoteCard> {
         : Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("“${widget.quote}”", style: thirdcardone),
-                Text(widget.author, style: thirdcardtwo),
+                Text(
+                  "“${widget.quote}”",
+                  style: thirdcardone,
+                ),
+                Text(
+                  widget.author,
+                  style: thirdcardtwo,
+                ),
               ],
             ),
           );

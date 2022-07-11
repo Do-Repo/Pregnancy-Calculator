@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pregnancy_app/screens/home_page.dart';
 import 'package:pregnancy_app/services/ads_services.dart';
 import 'package:pregnancy_app/services/notification_services.dart';
 import 'package:pregnancy_app/services/shared_prefs.dart';
-import 'package:provider/provider.dart';
 
 import 'screens/name_page.dart';
 
@@ -63,6 +62,6 @@ class _MyAppState extends State<MyApp> {
             home: child,
           );
         },
-        child: widget.firstTime ? const NamePage() : Homepage());
+        child: widget.firstTime ? const NamePage() : const Homepage());
   }
 }

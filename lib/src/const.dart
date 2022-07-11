@@ -30,12 +30,12 @@ final secondcardcounter = GoogleFonts.poppins(
   color: const Color(0XFF252122),
 );
 final thirdcardone = GoogleFonts.poppins(
-  fontSize: 40.sp,
+  fontSize: 17,
   fontWeight: FontWeight.bold,
   color: const Color(0XFF252122),
 );
 final thirdcardtwo = GoogleFonts.poppins(
-  fontSize: 15,
+  fontSize: 14,
   fontWeight: FontWeight.w600,
   color: const Color(0XFFFF007D),
 );

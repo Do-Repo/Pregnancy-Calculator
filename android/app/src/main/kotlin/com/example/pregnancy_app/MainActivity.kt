@@ -1,4 +1,4 @@
-package com.example.PregnancyCalculator
+package com.abracadabra.PregnancyCalculator
 
 import io.flutter.embedding.android.FlutterActivity
 

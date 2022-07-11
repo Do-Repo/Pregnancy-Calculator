@@ -111,7 +111,6 @@ class NotificationService {
 
 tz.TZDateTime setTiming(int hour, int minute) {
   Duration offsetTime = DateTime.now().timeZoneOffset;
-  print(offsetTime);
   tz.initializeTimeZones();
   var now = DateTime.now();
   tz.TZDateTime scheduledDate = (offsetTime.isNegative)
@@ -120,6 +119,5 @@ tz.TZDateTime setTiming(int hour, int minute) {
       : tz.TZDateTime(tz.UTC, now.year, now.month, now.day, hour, minute)
           .subtract(offsetTime);
 
-  print(scheduledDate);
   return scheduledDate;
 }

@@ -91,69 +91,75 @@ class _LessonListState extends State<LessonList> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Transform.rotate(
-                    angle: -20 * pi / 180,
-                    child: SvgPicture.asset(
-                      'assets/icons/upsidetree.svg',
-                      height: 0.12.sh,
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Transform.rotate(
+                          angle: -20 * pi / 180,
+                          child: SvgPicture.asset(
+                            'assets/icons/upsidetree.svg',
+                            height: 0.12.sh,
+                          ),
+                        ),
+                      ),
+                      Row(
                         children: [
-                          SizedBox(height: ScreenUtil().setHeight(10)),
-                          Text("Lessons", style: lesonss),
-                          SizedBox(height: ScreenUtil().setHeight(10)),
-                          RichText(
-                            text: TextSpan(
-                              text:
-                                  "Complete 10 lessons that will help you take care of your little one and get a ",
-                              style: lesonsStart,
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TextSpan(
-                                  text: "FREE",
-                                  style: lesons,
-                                ),
-                                TextSpan(
-                                  text: " present!",
-                                  style: lesonsStart,
+                                SizedBox(height: ScreenUtil().setHeight(10)),
+                                Text("Lessons", style: lesonss),
+                                SizedBox(height: ScreenUtil().setHeight(10)),
+                                RichText(
+                                  text: TextSpan(
+                                    text:
+                                        "Complete 10 lessons that will help you take care of your little one and get a ",
+                                    style: lesonsStart,
+                                    children: [
+                                      TextSpan(
+                                        text: "FREE",
+                                        style: lesons,
+                                      ),
+                                      TextSpan(
+                                        text: " present!",
+                                        style: lesonsStart,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
+                          SizedBox(width: ScreenUtil().setWidth(240)),
                         ],
                       ),
-                    ),
-                    SizedBox(width: ScreenUtil().setWidth(240)),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 13),
+                    child: Column(children: [
+                      ...buttonList(lessons),
+                    ]),
+                  ),
+                ],
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 13),
-              child: Column(children: [
-                ...buttonList(lessons),
-                FinalRewardButton(
-                  states: states,
-                  name: widget.name,
-                )
-              ]),
-            ),
-          ],
-        ),
+          ),
+          FinalRewardButton(
+            states: states,
+            name: widget.name,
+          )
+        ],
       ),
     );
   }

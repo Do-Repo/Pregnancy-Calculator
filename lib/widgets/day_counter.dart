@@ -13,7 +13,7 @@ class DayCounter extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       width: 1.sw,
       decoration: BoxDecoration(
-        color: const Color(0XFF60ab98),
+        color: const Color(0XFF68BAA5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: FittedBox(

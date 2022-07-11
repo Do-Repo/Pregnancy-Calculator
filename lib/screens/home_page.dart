@@ -78,7 +78,7 @@ class _HomepageState extends State<Homepage> {
             size: AdSize.banner,
             adUnitId: adState.homeBannerAd,
             listener: adState.bannerAdListener,
-            request: AdRequest())
+            request: const AdRequest())
           ..load();
       });
     });
@@ -99,7 +99,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void dispose() {
-    banner!.dispose();
+    if (banner != null) banner!.dispose();
     super.dispose();
   }
 
@@ -129,74 +129,79 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child:
-            CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
-          SliverFillRemaining(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      SvgPicture.asset(
-                        "assets/icons/tree.svg",
-                        fit: BoxFit.fitHeight,
-                      ),
-                      RewardButton(name: name)
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  TopCard(
-                    name: name,
-                    text:
-                        "Have an amazing day, and don't forget to take good care of yourself and your little one!",
-                  ),
-                  const SizedBox(height: 10),
-                  BabyCard(
-                    monthsleft: monthsleft,
-                  ),
-                  QuoteCard(
-                    quote: quote,
-                    author: author,
-                  ),
-                  Row(
-                    children: [
-                      const Spacer(),
-                      SvgPicture.asset("assets/icons/upsidetree.svg")
-                    ],
-                  ),
-                  DayCounter(daysLeft: daysleft),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, right: 20.0, top: 20.0),
-                    child: ListTile(
-                        onTap: (() => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DatePage(
-                                      name: name,
-                                    )))),
-                        title: Text(
-                          "Change dates and show calendar again",
-                          style: buttoncard,
-                        ),
-                        trailing: const Icon(Icons.keyboard_arrow_down)),
-                  ),
-                  const Spacer(),
-                  (banner != null)
-                      ? SizedBox(
-                          child: AdWidget(
-                            ad: banner!,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/tree.svg",
+                            fit: BoxFit.fitHeight,
                           ),
-                          height: banner!.size.height.toDouble(),
-                        )
-                      : Container(),
-                ],
+                          RewardButton(name: name)
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      TopCard(
+                        name: name,
+                        text:
+                            "Have an amazing day, and don't forget to take good care of yourself and your little one!",
+                      ),
+                      const SizedBox(height: 10),
+                      BabyCard(
+                        monthsleft: monthsleft,
+                      ),
+                      QuoteCard(
+                        quote: quote,
+                        author: author,
+                      ),
+                      Row(
+                        children: [
+                          const Spacer(),
+                          SvgPicture.asset(
+                            "assets/icons/upsidetree.svg",
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      DayCounter(daysLeft: daysleft),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20.0, top: 20.0),
+                        child: ListTile(
+                            onTap: (() => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DatePage(
+                                          name: name,
+                                        )))),
+                            title: Text(
+                              "Change dates and show calendar again",
+                              style: buttoncard,
+                            ),
+                            trailing: const Icon(Icons.keyboard_arrow_down)),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          )
-        ]),
+              (banner != null)
+                  ? SizedBox(
+                      child: AdWidget(
+                        ad: banner!,
+                      ),
+                      height: banner!.size.height.toDouble(),
+                    )
+                  : Container(),
+            ],
+          ),
+        ),
       ),
     );
   }

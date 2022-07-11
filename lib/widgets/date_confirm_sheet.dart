@@ -74,10 +74,7 @@ class Sheet extends StatelessWidget {
           Button1(
             text: "Confirm",
             onPressed: () {
-              // Breaks out of bottom sheet
-              Navigator.of(context).pop();
-              // Breaks out of name page
-              Navigator.of(context).pop();
+              Navigator.of(context).popUntil((route) => route.isFirst);
               // Breaks and pushes to home page
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const Homepage()));

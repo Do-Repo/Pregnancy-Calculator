@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -22,6 +21,7 @@ class _PrizePageState extends State<PrizePage> with TickerProviderStateMixin {
   String oldPrice = "50.00";
   String newPrice = "0.00";
   int selectedColor = 0;
+  final Uri _url = Uri.parse('https://secure.cardcom.solutions/e/UN7l');
   late TabController tabController;
   @override
   void initState() {
@@ -180,11 +180,7 @@ class _PrizePageState extends State<PrizePage> with TickerProviderStateMixin {
                     padding: const EdgeInsets.symmetric(horizontal: 38.0),
                     child: Button1(
                       text: "Continue",
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => CustomDialog());
-                      },
+                      onPressed: _launchUrl,
                       enabled: selectedColor != 0,
                     ),
                   )
@@ -195,60 +191,6 @@ class _PrizePageState extends State<PrizePage> with TickerProviderStateMixin {
         ),
       ),
     );
-  }
-}
-
-class CustomDialog extends StatefulWidget {
-  const CustomDialog({Key? key}) : super(key: key);
-
-  @override
-  State<CustomDialog> createState() => _CustomDialogState();
-}
-
-class _CustomDialogState extends State<CustomDialog> {
-  final Uri _url = Uri.parse('https://secure.cardcom.solutions/e/UN7l');
-  String couponCode = "ONETIME100%CUTE";
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        elevation: 10,
-        backgroundColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 10),
-              AutoSizeText(
-                "Don't forget to enter your one time coupon code to get your free prize!",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 50.sp,
-                ),
-                maxLines: 2,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                couponCode,
-                style: TextStyle(
-                    fontSize: 60.sp,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0XFFFA007C)),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 48.0),
-                child: Button1(
-                    text: "continue", enabled: true, onPressed: _launchUrl),
-              )
-            ],
-          ),
-        ));
   }
 
   void _launchUrl() async {

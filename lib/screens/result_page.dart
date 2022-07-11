@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pregnancy_app/screens/lessonlist_page.dart';
 import 'package:pregnancy_app/services/shared_prefs.dart';
+import 'package:provider/provider.dart';
 
+import '../services/ads_services.dart';
 import '../src/const.dart';
 
 class ResultPage extends StatefulWidget {
@@ -20,10 +23,13 @@ class _ResultPageState extends State<ResultPage> {
   String name = "";
   int count = 0;
   List<String> lessons = [];
+  bool isAdLoaded = false;
+  late InterstitialAd? interstitialAd;
 
   @override
   void initState() {
     super.initState();
+    interstitialAd = null;
     SharedPrefServices().getName().then((prefValue) {
       if (widget.isCorrect) {
         SharedPrefServices().getLessons().then((list) {
@@ -39,6 +45,24 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    InterstitialAd.load(
+        adUnitId: adState.interstitialQuiz,
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            isAdLoaded = true;
+            interstitialAd = ad;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print(error.toString() + ' result page ad');
+          },
+        ));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,13 +70,7 @@ class _ResultPageState extends State<ResultPage> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-            onPressed: (() => (widget.isCorrect)
-                ? {
-                    Navigator.popUntil(context, (route) => route.isFirst),
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => LessonList(name: name)))
-                  }
-                : {Navigator.of(context).pop()}),
+            onPressed: () => goBack(widget.isCorrect),
             icon: const Icon(Icons.arrow_back_ios)),
         backgroundColor: const Color(0XFF60AB97),
         title: FittedBox(
@@ -100,13 +118,7 @@ class _ResultPageState extends State<ResultPage> {
                   )),
               SizedBox(height: 100.h),
               GestureDetector(
-                onTap: () => (widget.isCorrect)
-                    ? {
-                        Navigator.popUntil(context, (route) => route.isFirst),
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LessonList(name: name)))
-                      }
-                    : {Navigator.of(context).pop()},
+                onTap: () => goBack(widget.isCorrect),
                 child: Container(
                   decoration: BoxDecoration(
                       color: const Color(0XFFFA007C),
@@ -142,5 +154,27 @@ class _ResultPageState extends State<ResultPage> {
         )
       ]),
     );
+  }
+
+  void goBack(bool isCorrect) {
+    if (isAdLoaded && interstitialAd != null) {
+      interstitialAd!.show().then((value) => {
+            (isCorrect)
+                ? {
+                    Navigator.popUntil(context, (route) => route.isFirst),
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LessonList(name: name)))
+                  }
+                : {Navigator.of(context).pop()}
+          });
+    } else {
+      (isCorrect)
+          ? {
+              Navigator.popUntil(context, (route) => route.isFirst),
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => LessonList(name: name)))
+            }
+          : {Navigator.of(context).pop()};
+    }
   }
 }
